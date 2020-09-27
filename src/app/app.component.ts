@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'recipes';
+  selectedItem = 'recipes';
+
+  switchSelectedItem(item: string) {
+    this.selectedItem = item;
+  }
 }
+
