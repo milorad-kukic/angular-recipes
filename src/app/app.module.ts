@@ -25,12 +25,10 @@ import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component
     ShoppingListComponent,
     ShoppingEditComponent,
     RecipeItemComponent,
-
-    DropDownDirective,
-
     RecipeStartComponent,
-
-    RecipeEditComponent
+    RecipeEditComponent,
+    // Directives
+    DropDownDirective
   ],
   imports: [
     BrowserModule,
