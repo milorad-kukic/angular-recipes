@@ -27,20 +27,20 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imagePath">Image URL</label>
+            <label for="image_path">Image URL</label>
             <input 
               type="text" 
-              id="imagePath" 
-              formControlName="imagePath"
+              id="image_path" 
+              formControlName="image_path"
               class="form-control"
-              #imagePath/>
+              #image_path/>
           </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <img [src]="imagePath.value" class="img-responsive"/>
+          <img [src]="image_path.value" class="img-responsive"/>
         </div>
       </div>
 
