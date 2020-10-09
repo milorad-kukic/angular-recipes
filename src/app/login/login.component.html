@@ -1,0 +1,41 @@
+<div class="login-form">    
+  <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+    <div *ngIf="!isLoading" class="avatar"><i class="material-icons">&#xE7FF;</i></div>
+    <app-spinner *ngIf="isLoading"></app-spinner>
+    <h4 class="modal-title">Login to Your Account</h4>
+    <div class="form-group">
+      <input 
+        type="email" 
+        class="form-control" 
+        placeholder="email" 
+        required="required"
+        ngModel
+        name="email"
+        emial
+        required
+        #email>
+    </div>
+    <div class="form-group">
+      <input 
+        type="password" 
+        class="form-control" 
+        placeholder="Password" 
+        required="required"
+        ngModel
+        name="password"
+        required>
+    </div>
+    <div>
+      <span class="help-block alert alert-danger"> errorMessage </span>
+    </div>
+    <div class="form-group small clearfix">
+      <label class="form-check-label"><input type="checkbox"> Remember me</label>
+      <a href="#" class="forgot-link">Forgot Password?</a>
+    </div> 
+    <button 
+        [disabled]="!loginForm.valid" 
+        type="submit" 
+        class="btn btn-primary btn-block btn-lg" >Login</button> 
+  </form>     
+  <div class="text-center small">Don't have an account? <a href="#">Sign up</a></div>
+</div>

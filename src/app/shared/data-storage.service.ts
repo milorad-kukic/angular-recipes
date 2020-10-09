@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { RecipeService } from '../recipes/recipe.service';
 
 import { Recipe } from '../recipes/recipe.model';
+import { AuthService } from '../auth/auth.service';
+import { exhaustMap, take } from 'rxjs/operators';
 
 @Injectable({providedIn: 'root'})
 export class DataStorageService {
 
   constructor(private http: HttpClient,
-              private recipeService: RecipeService) { }
+              private recipeService: RecipeService,
+              private authService: AuthService) { }
 
   storeRecipes() {
     const recipes = this.recipeService.getRecipes();
@@ -37,12 +40,14 @@ export class DataStorageService {
   }
 
   fetchRecipes() {
-    this.http.get<Recipe[]>('http://localhost:8000/api/recipes/')
+      return this.http.get<Recipe[]>(
+          'http://localhost:8000/api/recipes/')
       .subscribe(
         recipes => {
           this.recipeService.setRecipes(recipes);
         }
       );
+
   }
 
 }
