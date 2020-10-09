@@ -9,6 +9,7 @@ import { User } from './user.model';
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  private tokenExpirationTimer: any;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -23,6 +24,7 @@ export class AuthService {
       tap(resData => {
         const user = new User(email, resData.token);
         this.user.next(user);
+        // this.autoLogout(5000);
         localStorage.setItem('userData', JSON.stringify(user));
       })
     );
@@ -47,6 +49,19 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/login']);
+    localStorage.removeItem('userData');
+
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+  }
+
+  autoLogout(expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
+  
   }
 
 }
