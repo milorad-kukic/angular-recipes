@@ -23,8 +23,25 @@ export class AuthService {
       tap(resData => {
         const user = new User(email, resData.token);
         this.user.next(user);
+        localStorage.setItem('userData', JSON.stringify(user));
       })
     );
+  }
+
+  autoLogin() {
+    const userData: {
+      email: string;
+      _token: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+    if (!userData) {
+      return;
+    }
+
+    const loadedUser = new User(userData.email, userData._token)
+
+    if (loadedUser.token) {
+      this.user.next(loadedUser);
+    }
   }
 
   logout() {
