@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -9,7 +10,7 @@ export class AuthService {
 
   user = new BehaviorSubject<User>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(email: string, password: string) {
     return this.http.post<{token: string}>(
@@ -24,6 +25,11 @@ export class AuthService {
         this.user.next(user);
       })
     );
+  }
+
+  logout() {
+    this.user.next(null);
+    this.router.navigate(['/login']);
   }
 
 }
