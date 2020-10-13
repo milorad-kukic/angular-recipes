@@ -1,23 +1,41 @@
 <div class="login-form">    
-  <form>
+  <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
     <div class="avatar"><i class="material-icons">&#xE7FF;</i></div>
     <h4 class="modal-title">Create an Account</h4>
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="email" required="required">
+      <input type="text" class="form-control" placeholder="email"
+      formControlName="email" >
+      <span class="help-block error-message"
+        *ngIf="!signupForm.get('email').valid && signupForm.get('email').touched"
+          >Please enter a valid email address</span>
     </div>
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="first_name">
+      <input type="text" class="form-control" placeholder="first_name"
+      formControlName="first_name"
+      >
     </div>
     <div class="form-group">
-      <input type="text" class="form-control" placeholder="last_name">
+      <input type="text" class="form-control" placeholder="last_name"
+      formControlName="last_name">
     </div>
     <div class="form-group">
-      <input type="password" class="form-control" placeholder="Password" required="required">
+      <input type="password" class="form-control" placeholder="Password" 
+      formControlName="password1">
+      <span class="help-block error-message"
+        *ngIf="!signupForm.get('password1').valid && signupForm.get('password1').touched"
+          >You must enter a password</span>
     </div>
     <div class="form-group">
-      <input type="password2" class="form-control" placeholder="Repeat Password" required="required">
+      <input type="password" class="form-control" placeholder="Repeat Password"
+      formControlName="password2">
+      <span class="help-block error-message"
+        *ngIf="!signupForm.get('password2').valid && signupForm.get('password2').touched"
+          >You must enter a password</span>
     </div>
-    <input type="submit" class="btn btn-primary btn-block btn-lg" value="Signup">              
+    <div *ngIf="errorMessage">
+      <span class="help-block alert alert-danger"> {{ errorMessage }} </span>
+    </div>
+    <input [disabled]="!signupForm.valid"type="submit" class="btn btn-primary btn-block btn-lg" value="Signup">
   </form>     
-  <div class="text-center small">Already have an account? <a href="#">Login</a></div>
+  <div class="text-center small">Already have an account? <a [routerLink]="['/login']">Login</a></div>
 </div>

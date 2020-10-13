@@ -13,6 +13,19 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  signup(email: string, first_name: string, last_name: string,
+         password: string) {
+    return this.http.post(
+      'http://localhost:8000/api/user/create/',
+      {
+        email: email,
+        first_name: first_name,
+        last_name: last_name,
+        password: password
+      }
+    );
+  }
+
   login(email: string, password: string) {
     return this.http.post<{token: string}>(
       'http://localhost:8000/api/token/',
