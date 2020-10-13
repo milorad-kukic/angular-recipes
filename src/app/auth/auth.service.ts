@@ -28,9 +28,9 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.http.post<{token: string}>(
-      'http://localhost:8000/api/token/',
+      'http://localhost:8000/api/user/token/',
       {
-        username: email,
+        email: email,
         password: password
       }
     ).pipe(
