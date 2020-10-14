@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 
 @Injectable({ providedIn: 'root' })
@@ -39,6 +39,15 @@ export class AuthService {
         this.user.next(user);
         // this.autoLogout(5000);
         localStorage.setItem('userData', JSON.stringify(user));
+      }),
+      catchError(error=> {
+        var errorObject = error['error'];
+        var errorMessage = 'Server Error';
+        if (errorObject && errorObject['non_field_errors']) {
+          errorMessage = errorObject['non_field_errors'][0]; 
+        }
+
+        return throwError(errorMessage)
       })
     );
   }

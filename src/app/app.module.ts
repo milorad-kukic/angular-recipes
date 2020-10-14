@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import {AlertComponent} from './shared/alert/alert.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
     DropDownDirective,
     SignupComponent,
     SpinnerComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

@@ -26,15 +26,19 @@ export class LoginComponent {
       .subscribe(
         responseData => {
           console.log(responseData);
-          console.log(responseData.token);
           this.isLoading = false;
           this.router.navigate(['/recipes']);
         },
         errorData => {
           this.errorMessage = errorData;
+          console.log(errorData);
           this.isLoading = false;
         }
       )
+  }
+
+  onHandleError() {
+    this.errorMessage = null;
   }
 
 }
