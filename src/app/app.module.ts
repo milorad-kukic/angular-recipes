@@ -10,8 +10,6 @@ import { ShoppingListService } from './shopping-list/shopping-list.service';
 import { RecipeService } from './recipes/recipe.service';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AlertComponent } from './shared/alert/alert.component';
-import { RecipesModule } from './recipes/recipes.module';
-import { ShoppingListModule } from './shopping-list/shoppint-list.module';
 import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
 
@@ -29,8 +27,6 @@ import {AuthModule} from './auth/auth.module';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    RecipesModule,
-    ShoppingListModule,
     SharedModule,
     AuthModule
   ],
