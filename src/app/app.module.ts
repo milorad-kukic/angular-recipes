@@ -12,7 +12,7 @@ import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { AlertComponent } from './shared/alert/alert.component';
 import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
-import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import * as fromApp from './store/app.reducer';
 
 
 @NgModule({
@@ -27,7 +27,7 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    StoreModule.forRoot({shoppingList: shoppingListReducer}),
+    StoreModule.forRoot(fromApp.appReducer),
     HttpClientModule,
     SharedModule,
     AuthModule

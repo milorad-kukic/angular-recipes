@@ -1,17 +1,13 @@
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import * as ShoppingListActions from './shopping-list.actions';
 
-export interface ShoppingListState {
+export interface State {
   ingredients: Ingredient[];
   editedIngredient: Ingredient;
   editedIngredientIndex: number;
 }
 
-export interface AppState {
-  shoppingList: ShoppingListState
-}
-
-const initialState: ShoppingListState = {
+const initialState: State = {
 
   ingredients:  [
       new Ingredient('Apples', 5),
