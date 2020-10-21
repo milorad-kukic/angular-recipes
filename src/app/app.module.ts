@@ -13,6 +13,8 @@ import { AlertComponent } from './shared/alert/alert.component';
 import {SharedModule} from './shared/shared.module';
 import {AuthModule} from './auth/auth.module';
 import * as fromApp from './store/app.reducer';
+import {EffectsModule} from '@ngrx/effects';
+import {AuthEffects} from './auth/store/auth.effects';
 
 
 @NgModule({
@@ -28,6 +30,7 @@ import * as fromApp from './store/app.reducer';
     ReactiveFormsModule,
     AppRoutingModule,
     StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([AuthEffects]),
     HttpClientModule,
     SharedModule,
     AuthModule
