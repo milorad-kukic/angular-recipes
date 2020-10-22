@@ -10,6 +10,24 @@ import { Router } from '@angular/router';
 export class AuthEffects {
   
   @Effect()
+  authSignup = this.actions$.pipe(
+    ofType(AuthActions.SIGNUP_START),
+    switchMap((signupAction: AuthActions.SignupStart) => {
+      return this.http.post(
+        'http://localhost:8000/api/user/create/',
+        {
+          email: signupAction.payload.email,
+          first_name: signupAction.payload.first_name,
+          last_name: signupAction.payload.last_name,
+          password: signupAction.payload.password
+        }
+      ).pipe(
+
+      );
+    })
+  );
+
+  @Effect()
   authLogin = this.actions$.pipe(
     ofType(AuthActions.LOGIN_START),
     switchMap((authData: AuthActions.LoginStart) => {
@@ -22,7 +40,7 @@ export class AuthEffects {
           }
         ).pipe(
           map(resData=>{
-            return new AuthActions.Login({
+            return new AuthActions.AuthenticateSuccess({
               email: authData.payload.email, 
               token: resData.token
             })
@@ -33,14 +51,16 @@ export class AuthEffects {
             if (errorObject && errorObject['non_field_errors']) {
               errorMessage = errorObject['non_field_errors'][0]; 
             }
-            return of(new AuthActions.LoginFail(errorMessage));
+            return of(new AuthActions.AuthenticateFail(errorMessage));
           }), 
         );
       })
     );
 
   @Effect({dispatch: false})
-  authSuccess = this.actions$.pipe(ofType(AuthActions.LOGIN), tap(()=>{
+  authRedirect = this.actions$.pipe(
+    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT), 
+    tap(()=>{
     this.router.navigate(['/']);
   }));
 

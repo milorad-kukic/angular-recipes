@@ -33,60 +33,59 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string) {
-    return this.http.post<{token: string}>(
-      'http://localhost:8000/api/user/token/',
-      {
-        email: email,
-        password: password
-      }
-    ).pipe(
-      tap(resData => {
-        const user = new User(email, resData.token);
-        /* this.user.next(user); */
-        this.store.dispatch(new AuthActions.Login({
-          email: email,
-          token: resData.token
-        }));
-        // this.autoLogout(5000);
-        localStorage.setItem('userData', JSON.stringify(user));
-      }),
-      catchError(error=> {
-        var errorObject = error['error'];
-        var errorMessage = 'Server Error';
-        if (errorObject && errorObject['non_field_errors']) {
-          errorMessage = errorObject['non_field_errors'][0]; 
-        }
+  /* login(email: string, password: string) { */
+  /*   return this.http.post<{token: string}>( */
+  /*     'http://localhost:8000/api/user/token/', */
+  /*     { */
+  /*       email: email, */
+  /*       password: password */
+  /*     } */
+  /*   ).pipe( */
+  /*     tap(resData => { */
+  /*       const user = new User(email, resData.token); */
+  /*       /1* this.user.next(user); *1/ */
+  /*       this.store.dispatch(new AuthActions.AuthenticateSuccess({ */
+  /*         email: email, */
+  /*         token: resData.token */
+  /*       })); */
+  /*       // this.autoLogout(5000); */
+  /*       localStorage.setItem('userData', JSON.stringify(user)); */
+  /*     }), */
+  /*     catchError(error=> { */
+  /*       var errorObject = error['error']; */
+  /*       var errorMessage = 'Server Error'; */
+  /*       if (errorObject && errorObject['non_field_errors']) { */
+  /*         errorMessage = errorObject['non_field_errors'][0]; */ 
+  /*       } */
 
-        return throwError(errorMessage)
-      })
-    );
-  }
+  /*       return throwError(errorMessage) */
+  /*     }) */
+  /*   ); */
+  /* } */
 
-  autoLogin() {
-    const userData: {
-      email: string;
-      _token: string;
-    } = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
-      return;
-    }
+  /* autoLogin() { */
+  /*   const userData: { */
+  /*     email: string; */
+  /*     _token: string; */
+  /*   } = JSON.parse(localStorage.getItem('userData')); */
+  /*   if (!userData) { */
+  /*     return; */
+  /*   } */
 
-    const loadedUser = new User(userData.email, userData._token)
+  /*   const loadedUser = new User(userData.email, userData._token) */
 
-    if (loadedUser.token) {
-      /* this.user.next(loadedUser); */
-      this.store.dispatch(new AuthActions.Login({
-        email: loadedUser.email, 
-        token: loadedUser.token
-      }));
-    }
-  }
+  /*   if (loadedUser.token) { */
+  /*     /1* this.user.next(loadedUser); *1/ */
+  /*     this.store.dispatch(new AuthActions.AuthenticateSuccess({ */
+  /*       email: loadedUser.email, */ 
+  /*       token: loadedUser.token */
+  /*     })); */
+  /*   } */
+  /* } */
 
   logout() {
     /* this.user.next(null); */
     this.store.dispatch(new AuthActions.Logout());
-    this.router.navigate(['/login']);
     localStorage.removeItem('userData');
 
     if (this.tokenExpirationTimer) {
