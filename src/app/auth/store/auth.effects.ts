@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import * as AuthActions from './auth.actions';
 import { Router } from '@angular/router';
+import { User } from '../user.model';
 
 @Injectable()
 export class AuthEffects {
@@ -40,6 +41,8 @@ export class AuthEffects {
           }
         ).pipe(
           map(resData=>{
+            const user = new User(authData.payload.email, resData.token);
+            localStorage.setItem('userData', JSON.stringify(user));
             return new AuthActions.AuthenticateSuccess({
               email: authData.payload.email, 
               token: resData.token
@@ -59,9 +62,43 @@ export class AuthEffects {
 
   @Effect({dispatch: false})
   authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS, AuthActions.LOGOUT), 
+    ofType(
+      AuthActions.AUTHENTICATE_SUCCESS), 
     tap(()=>{
-    this.router.navigate(['/']);
+      this.router.navigate(['/']);
+    })
+  );
+
+  @Effect()
+  autoLogin = this.actions$.pipe(
+    ofType(AuthActions.AUTO_LOGIN),
+    map(()=> {
+      const userData: {
+        email: string;
+        _token: string;
+      } = JSON.parse(localStorage.getItem('userData'));
+      if (!userData) {
+        return { type: 'AUTO_LOGIN_FAIL' }
+      }
+
+      const loadedUser = new User(userData.email, userData._token)
+
+      if (loadedUser.token) {
+        /* this.user.next(loadedUser); */
+        return new AuthActions.AuthenticateSuccess({
+          email: loadedUser.email, 
+          token: loadedUser.token
+        });
+      }
+
+      return { type: 'AUTO_LOGIN_FAIL' }
+    })
+  )
+  
+  @Effect({dispatch: false})
+  authLogout = this.actions$.pipe(ofType(AuthActions.LOGOUT), tap(()=> {
+    localStorage.removeItem('userData'); 
+    this.router.navigate(['/login']);
   }));
 
   constructor(private actions$: Actions, private http: HttpClient, private router: Router) {}
